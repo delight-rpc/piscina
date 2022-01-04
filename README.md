@@ -14,7 +14,7 @@ interface IAPI {
 }
 
 // worker.ts
-import { createServer } from '@delight-rpc/worker-threads'
+import { createServer } from '@delight-rpc/piscina'
 
 const api: IAPI = {
   echo(message: string): string {
@@ -25,12 +25,12 @@ const api: IAPI = {
 export default createServer(api)
 
 // main.ts
-import { createClient } from '@delight-rpc/worker-threads'
+import { createClient } from '@delight-rpc/piscina'
 
 const piscina = new Piscina({
   filename: new URL('./worker.js', import.meta.url).href
 })
-const [client] = createClient<IAPI>(piscina)
+const client = createClient<IAPI>(piscina)
 
 await client.echo('hello world')
 ```
