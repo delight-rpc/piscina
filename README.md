@@ -47,7 +47,7 @@ function createClient<IAPI extends object>(
 ### createServer
 ```ts
 function createServer<IAPI extends object>(
-  api: IAPI
+  api: DelightRPC.ImplementationOf<IAPI>
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
 ): (req: any) => Promise<any>
 ```

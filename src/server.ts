@@ -1,7 +1,7 @@
 import * as DelightRPC from 'delight-rpc'
 
 export function createServer<IAPI extends object>(
-  api: IAPI
+  api: DelightRPC.ImplementationOf<IAPI>
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
 ): (req: any) => Promise<any> {
   return async function handler(req: any): Promise<any> {
