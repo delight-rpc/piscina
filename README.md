@@ -41,6 +41,7 @@ await client.echo('hello world')
 function createClient<IAPI extends object>(
   piscina: Piscina
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+, expectedVersion?: `${number}.${number}.${number}`
 ): DelightRPC.ClientProxy<IAPI>
 ```
 
@@ -49,5 +50,6 @@ function createClient<IAPI extends object>(
 function createServer<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+, version?: `${number}.${number}.${number}`
 ): (req: any) => Promise<any>
 ```
