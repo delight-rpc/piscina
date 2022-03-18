@@ -45,6 +45,14 @@ function createClient<IAPI extends object>(
 ): DelightRPC.ClientProxy<IAPI>
 ```
 
+### createBatchClient
+```ts
+function createBatchClient<IAPI extends object>(
+  piscina: Piscina
+, expectedVersion?: `${number}.${number}.${number}`
+): DelightRPC.BatchClient
+```
+
 ### createServer
 ```ts
 function createServer<IAPI extends object>(
