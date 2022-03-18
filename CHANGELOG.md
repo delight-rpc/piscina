@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/delight-rpc/piscina/compare/v0.2.0...v0.2.1) (2022-03-18)
+
+
+### Features
+
+* add createBatchClient ([f260db6](https://github.com/delight-rpc/piscina/commit/f260db683678af9dd7c5a17f37db436b04c83934))
+
 ## [0.2.0](https://github.com/delight-rpc/piscina/compare/v0.1.2...v0.2.0) (2022-02-10)
 
 
