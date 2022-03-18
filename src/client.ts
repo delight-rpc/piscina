@@ -15,11 +15,11 @@ export function createClient<IAPI extends object>(
   return client
 }
 
-export function createBatchClient<IAPI extends object>(
+export function createBatchClient(
   piscina: Piscina
 , expectedVersion?: `${number}.${number}.${number}`
 ): DelightRPC.BatchClient {
-  const client = new DelightRPC.BatchClient<IAPI>(
+  const client = new DelightRPC.BatchClient(
     createSend(piscina)
   , expectedVersion
   )
@@ -29,8 +29,8 @@ export function createBatchClient<IAPI extends object>(
 
 function createSend<T>(piscina: Piscina) {
   return async function (
-    request: DelightRPC.IRequest<T> | DelightRPC.IBatchRequest<T>
+    request: DelightRPC.IRequest<unknown> | DelightRPC.IBatchRequest<unknown>
   ) {
-    return await piscina.run(request)
+    return await piscina.run(request) as T
   }
 }
