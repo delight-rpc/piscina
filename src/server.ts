@@ -6,7 +6,7 @@ export function createServer<IAPI extends object>(
 , version?: `${number}.${number}.${number}`
 ): (req: any) => Promise<any> {
   return async function handler(req: any): Promise<any> {
-    if (DelightRPC.isRequest(req)) {
+    if (DelightRPC.isRequest(req) || DelightRPC.isBatchRequest(req)) {
       const result = await DelightRPC.createResponse(
         api
       , req
