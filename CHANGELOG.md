@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/delight-rpc/piscina/compare/v0.2.3...v0.3.0) (2022-05-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* use delight-rpc@4
+
+* upgrade dependencies ([1386c41](https://github.com/delight-rpc/piscina/commit/1386c4130ad12c5f704282f1d2e83b6a3ef183e2))
+
 ### [0.2.3](https://github.com/delight-rpc/piscina/compare/v0.2.2...v0.2.3) (2022-04-04)
 
 
