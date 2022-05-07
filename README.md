@@ -40,8 +40,11 @@ await client.echo('hello world')
 ```ts
 function createClient<IAPI extends object>(
   piscina: Piscina
-, parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-, expectedVersion?: `${number}.${number}.${number}`
+, options?: {
+    parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+    expectedVersion?: `${number}.${number}.${number}`
+    channel?: string
+  }
 ): DelightRPC.ClientProxy<IAPI>
 ```
 
@@ -49,7 +52,10 @@ function createClient<IAPI extends object>(
 ```ts
 function createBatchClient(
   piscina: Piscina
-, expectedVersion?: `${number}.${number}.${number}`
+, options?: {
+    expectedVersion?: `${number}.${number}.${number}`
+    channel?: string
+  }
 ): DelightRPC.BatchClient
 ```
 
@@ -57,7 +63,10 @@ function createBatchClient(
 ```ts
 function createServer<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
-, parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-, version?: `${number}.${number}.${number}`
-): (req: any) => Promise<any>
+, options?: {
+    parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+    version?: `${number}.${number}.${number}`
+    channel?: string
+  }
+): (req: unknown) => Promise<unknown>
 ```

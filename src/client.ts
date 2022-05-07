@@ -1,15 +1,22 @@
 import * as DelightRPC from 'delight-rpc'
 import Piscina from 'piscina'
+import { IRequest, IBatchRequest } from '@delight-rpc/protocol'
 
 export function createClient<IAPI extends object>(
   piscina: Piscina
-, parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-, expectedVersion?: `${number}.${number}.${number}`
+, { parameterValidators, expectedVersion, channel }: {
+    parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+    expectedVersion?: `${number}.${number}.${number}`
+    channel?: string
+  } = {}
 ): DelightRPC.ClientProxy<IAPI> {
   const client = DelightRPC.createClient<IAPI>(
     createSend(piscina)
-  , parameterValidators
-  , expectedVersion
+  , {
+      parameterValidators
+    , expectedVersion
+    , channel
+    }
   )
 
   return client
@@ -17,11 +24,17 @@ export function createClient<IAPI extends object>(
 
 export function createBatchClient(
   piscina: Piscina
-, expectedVersion?: `${number}.${number}.${number}`
+, { expectedVersion, channel }: {
+    expectedVersion?: `${number}.${number}.${number}`
+    channel?: string
+  } = {}
 ): DelightRPC.BatchClient {
   const client = new DelightRPC.BatchClient(
     createSend(piscina)
-  , expectedVersion
+  , {
+      expectedVersion
+    , channel
+    }
   )
 
   return client
@@ -29,7 +42,7 @@ export function createBatchClient(
 
 function createSend<T>(piscina: Piscina) {
   return async function (
-    request: DelightRPC.IRequest<unknown> | DelightRPC.IBatchRequest<unknown>
+    request: IRequest<unknown> | IBatchRequest<unknown>
   ) {
     return await piscina.run(request) as T
   }
