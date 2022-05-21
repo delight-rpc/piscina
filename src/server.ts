@@ -3,10 +3,11 @@ import { isntNull } from '@blackglory/prelude'
 
 export function createServer<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
-, { parameterValidators, version, channel }: {
+, { parameterValidators, version, channel, ownPropsOnly }: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
     version?: `${number}.${number}.${number}`
     channel?: string
+    ownPropsOnly?: boolean
   } = {}
 ): (req: unknown) => Promise<unknown> {
   return async function handler(req: unknown): Promise<unknown> {
@@ -18,6 +19,7 @@ export function createServer<IAPI extends object>(
           parameterValidators
         , version
         , channel
+        , ownPropsOnly
         }
       )
 
