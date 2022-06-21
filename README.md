@@ -68,6 +68,7 @@ function createServer<IAPI extends object>(
     version?: `${number}.${number}.${number}`
     channel?: string
     ownPropsOnly?: boolean
+    channel?: string | RegExp | AnyChannel
   }
 ): (req: unknown) => Promise<unknown>
 ```
