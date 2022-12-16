@@ -6,7 +6,7 @@ export function createClient<IAPI extends object>(
   piscina: Piscina
 , { parameterValidators, expectedVersion, channel }: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
   } = {}
 ): DelightRPC.ClientProxy<IAPI> {
@@ -25,11 +25,11 @@ export function createClient<IAPI extends object>(
 export function createBatchClient(
   piscina: Piscina
 , { expectedVersion, channel }: {
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
   } = {}
 ): DelightRPC.BatchClient {
-  const client = new DelightRPC.BatchClient(
+  const client = new DelightRPC.BatchClient<unknown>(
     createSend(piscina)
   , {
       expectedVersion
@@ -40,10 +40,8 @@ export function createBatchClient(
   return client
 }
 
-function createSend<T>(piscina: Piscina) {
-  return async function (
-    request: IRequest<unknown> | IBatchRequest<unknown>
-  ) {
-    return await piscina.run(request) as T
-  }
+function createSend<T>(
+  piscina: Piscina
+): (request: IRequest<unknown> | IBatchRequest<unknown>) => Promise<T> {
+  return async request => await piscina.run(request)
 }
