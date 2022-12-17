@@ -1,5 +1,4 @@
 import { createClient } from '@src/client'
-import '@blackglory/jest-matchers'
 import { IAPI } from './api'
 import * as path from 'path'
 import { getErrorPromise } from 'return-style'
@@ -19,11 +18,9 @@ describe('Main as Client, Worker as Server', () => {
   test('echo', async () => {
     const client = createClient<IAPI>(pool)
 
-    const result = client.echo('hello')
-    const proResult = await result
+    const result = await client.echo('hello')
 
-    expect(result).toBePromise()
-    expect(proResult).toBe('hello')
+    expect(result).toBe('hello')
   })
 
   test('error', async () => {
