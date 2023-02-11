@@ -50,13 +50,13 @@ function createClient<IAPI extends object>(
 
 ### createBatchClient
 ```ts
-function createBatchClient(
+function createBatchClient<DataType>(
   piscina: Piscina
 , options?: {
     expectedVersion?: string
     channel?: string
   }
-): DelightRPC.BatchClient
+): DelightRPC.BatchClient<DataType>
 ```
 
 ### createServer

@@ -22,14 +22,14 @@ export function createClient<IAPI extends object>(
   return client
 }
 
-export function createBatchClient(
+export function createBatchClient<DataType>(
   piscina: Piscina
 , { expectedVersion, channel }: {
     expectedVersion?: string
     channel?: string
   } = {}
 ): DelightRPC.BatchClient {
-  const client = new DelightRPC.BatchClient<unknown>(
+  const client = new DelightRPC.BatchClient<DataType>(
     createSend(piscina)
   , {
       expectedVersion
