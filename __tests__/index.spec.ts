@@ -1,8 +1,11 @@
-import { createClient } from '@src/client'
-import { IAPI } from './api'
-import * as path from 'path'
+import { createClient } from '@src/client.js'
+import { IAPI } from './contract.js'
+import path from 'path'
 import { getErrorPromise } from 'return-style'
 import Piscina from 'piscina'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 describe('Main as Client, Worker as Server', () => {
   let pool: Piscina
