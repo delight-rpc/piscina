@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/delight-rpc/piscina/compare/v0.4.1...v0.5.0) (2023-03-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* - CommonJS => ESM.
+- The minimal version of Node.js is 16.
+
+* upgrade dependencies ([9ea08b3](https://github.com/delight-rpc/piscina/commit/9ea08b3d066ea8e1ba6198614c3acca2da352651))
+
 ### [0.4.1](https://github.com/delight-rpc/piscina/compare/v0.4.0...v0.4.1) (2023-02-11)
 
 ## [0.4.0](https://github.com/delight-rpc/piscina/compare/v0.3.3...v0.4.0) (2022-12-16)
