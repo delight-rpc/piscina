@@ -11,7 +11,7 @@ describe('Main as Client, Worker as Server', () => {
   let pool: Piscina
   beforeEach(() => {
     pool = new Piscina({
-      filename: path.join(__dirname, './worker.js')
+      filename: path.join(__dirname, './worker.ts')
     })
   })
   afterEach(async () => {
