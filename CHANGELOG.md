@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.6](https://github.com/delight-rpc/piscina/compare/v0.5.5...v0.5.6) (2026-02-12)
+
+
+### Bug Fixes
+
+* **create-batch-client:** the type of the return value ([02a5a4d](https://github.com/delight-rpc/piscina/commit/02a5a4db4f1d66fa37c15c6b2640bf2e56b1838a))
+
 ### [0.5.5](https://github.com/delight-rpc/piscina/compare/v0.5.4...v0.5.5) (2023-12-10)
 
 
