@@ -28,7 +28,7 @@ export function createBatchClient<DataType>(
     expectedVersion?: string
     channel?: string
   } = {}
-): DelightRPC.BatchClient {
+): DelightRPC.BatchClient<DataType> {
   const client = new DelightRPC.BatchClient<DataType>(
     createSend(piscina)
   , {
