@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.1](https://github.com/delight-rpc/piscina/compare/v0.6.0...v0.6.1) (2026-02-26)
+
+
+### Bug Fixes
+
+* **server:** signal ([7cf4aaa](https://github.com/delight-rpc/piscina/commit/7cf4aaad774c05c04da81cd0428a01a35ee61b1a))
+
 ## [0.6.0](https://github.com/delight-rpc/piscina/compare/v0.5.6...v0.6.0) (2026-02-26)
 
 
