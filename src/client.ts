@@ -1,17 +1,46 @@
 import * as DelightRPC from 'delight-rpc'
-import Piscina from 'piscina'
-import { IRequest, IBatchRequest } from '@delight-rpc/protocol'
+import { Piscina } from 'piscina'
+import { SyncDestructor } from 'extra-defer'
+import { AbortController, raceAbortSignals, timeoutSignal } from 'extra-abort'
+import { isntUndefined, pass } from '@blackglory/prelude'
 
 export function createClient<IAPI extends object>(
   piscina: Piscina
-, { parameterValidators, expectedVersion, channel }: {
+, { parameterValidators, expectedVersion, channel, timeout }: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
     expectedVersion?: string
     channel?: string
+    timeout?: number
   } = {}
-): DelightRPC.ClientProxy<IAPI> {
+): [client: DelightRPC.ClientProxy<IAPI>, close: () => void] {
+  const destructor = new SyncDestructor()
+
+  const controller = new AbortController()
+  destructor.defer(abortAllPendings)
+
   const client = DelightRPC.createClient<IAPI>(
-    createSend(piscina)
+    async function send(request, signal) {
+      const destructor = new SyncDestructor()
+
+      try {
+        const mergedSignal = raceAbortSignals([
+          isntUndefined(timeout) && timeoutSignal(timeout)
+        , signal
+        , controller.signal
+        ])
+        mergedSignal.addEventListener('abort', sendAbort)
+        destructor.defer(() => mergedSignal.removeEventListener('abort', sendAbort))
+
+        return await piscina.run(request, { signal: mergedSignal })
+      } finally {
+        destructor.execute()
+      }
+
+      async function sendAbort(): Promise<void> {
+        const abort = DelightRPC.createAbort(request.id, channel)
+        await piscina.run(abort).catch(pass)
+      }
+    }
   , {
       parameterValidators
     , expectedVersion
@@ -19,29 +48,65 @@ export function createClient<IAPI extends object>(
     }
   )
 
-  return client
+  return [client, close]
+
+  function close(): void {
+    destructor.execute()
+  }
+
+  function abortAllPendings(): void {
+    controller.abort()
+  }
 }
 
 export function createBatchClient<DataType>(
   piscina: Piscina
-, { expectedVersion, channel }: {
+, { expectedVersion, channel, timeout }: {
     expectedVersion?: string
     channel?: string
+    timeout?: number
   } = {}
-): DelightRPC.BatchClient<DataType> {
+): [client: DelightRPC.BatchClient<DataType>, close: () => void] {
+  const destructor = new SyncDestructor()
+
+  const controller = new AbortController()
+  destructor.defer(abortAllPendings)
+
   const client = new DelightRPC.BatchClient<DataType>(
-    createSend(piscina)
+    async function send(request) {
+      const destructor = new SyncDestructor()
+
+      try {
+        const mergedSignal = raceAbortSignals([
+          isntUndefined(timeout) && timeoutSignal(timeout)
+        , controller.signal
+        ])
+        mergedSignal.addEventListener('abort', sendAbort)
+        destructor.defer(() => mergedSignal.removeEventListener('abort', sendAbort))
+
+        return await piscina.run(request, { signal: mergedSignal })
+      } finally {
+        destructor.execute()
+      }
+
+      async function sendAbort(): Promise<void> {
+        const abort = DelightRPC.createAbort(request.id, channel)
+        await piscina.run(abort).catch(pass)
+      }
+    }
   , {
       expectedVersion
     , channel
     }
   )
 
-  return client
-}
+  return [client, close]
 
-function createSend<T>(
-  piscina: Piscina
-): (request: IRequest<unknown> | IBatchRequest<unknown>) => Promise<T> {
-  return async request => await piscina.run(request)
+  function close(): void {
+    destructor.execute()
+  }
+
+  function abortAllPendings(): void {
+    controller.abort()
+  }
 }

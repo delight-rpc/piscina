@@ -22,7 +22,9 @@ const api: IAPI = {
   }
 }
 
-export default createServer(api)
+const [handler] = createServer(api)
+
+export default handler
 
 // main.ts
 import { createClient } from '@delight-rpc/piscina'
@@ -30,7 +32,7 @@ import { createClient } from '@delight-rpc/piscina'
 const piscina = new Piscina({
   filename: new URL('./worker.js', import.meta.url).href
 })
-const client = createClient<IAPI>(piscina)
+const [client] = createClient<IAPI>(piscina)
 
 await client.echo('hello world')
 ```
@@ -44,8 +46,9 @@ function createClient<IAPI extends object>(
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
     expectedVersion?: string
     channel?: string
+    timeout?: number
   }
-): DelightRPC.ClientProxy<IAPI>
+): [client: DelightRPC.ClientProxy<IAPI>, close: () => void]
 ```
 
 ### createBatchClient
@@ -55,8 +58,9 @@ function createBatchClient<DataType>(
 , options?: {
     expectedVersion?: string
     channel?: string
+    timeout?: number
   }
-): DelightRPC.BatchClient<DataType>
+): [client: DelightRPC.BatchClient<DataType>, close: () => void]
 ```
 
 ### createServer
@@ -70,5 +74,5 @@ function createServer<IAPI extends object>(
     ownPropsOnly?: boolean
     channel?: string | RegExp | AnyChannel
   }
-): (req: unknown) => Promise<unknown>
+): [handler: (message: unknown) => Promise<unknown>, close: () => void]
 ```
