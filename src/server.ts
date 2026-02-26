@@ -54,6 +54,7 @@ export function createServer<IAPI extends object>(
           , version
           , channel
           , ownPropsOnly
+          , signal: controller.signal
           }
         )
 
