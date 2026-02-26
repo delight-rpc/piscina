@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/delight-rpc/piscina/compare/v0.5.6...v0.6.0) (2026-02-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* - Node.js v16 => Node.js v22
+- Modified the return value of `createClient`
+- Modified the return value of `createBatchClient`
+- Modified the return value of `createServer`
+
+### Features
+
+* add support for `DelightRPC.IAbort` ([2f6cc0b](https://github.com/delight-rpc/piscina/commit/2f6cc0bde0dd1e26e83ae302e2c8a39822227d06))
+
 ### [0.5.6](https://github.com/delight-rpc/piscina/compare/v0.5.5...v0.5.6) (2026-02-12)
 
 
